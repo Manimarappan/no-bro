@@ -1,0 +1,21 @@
+logging:
+  level:
+    org:
+      springframework: DEBUG
+    com:
+      property:
+        no_bro: DEBUG
+spring:
+  application:
+    name: no-bro
+  datasource:
+    url: jdbc:mysql://localhost:3306/no_bro_db?createDatabaseIfNotExist=true
+    username: root
+    password: 1234567890
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
