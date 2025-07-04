@@ -43,9 +43,14 @@ public class Property {
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "imageId", referencedColumnName = "id")
+    private Image image;
+
     private boolean isFeatured;
     private int viewsCount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
 
 }

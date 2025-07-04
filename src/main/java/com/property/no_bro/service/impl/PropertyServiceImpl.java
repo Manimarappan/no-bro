@@ -2,8 +2,10 @@ package com.property.no_bro.service.impl;
 
 import com.property.no_bro.dto.request.PropertyRequest;
 import com.property.no_bro.dto.response.PropertyResponse;
+import com.property.no_bro.model.Image;
 import com.property.no_bro.model.Property;
 import com.property.no_bro.model.User;
+import com.property.no_bro.repository.ImageRepository;
 import com.property.no_bro.repository.PropertyRepository;
 import com.property.no_bro.repository.UserRepository;
 import com.property.no_bro.service.PropertyService;
@@ -27,6 +29,9 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ImageRepository imageRepository;
 
     @Override
     public PropertyResponse saveProperty(PropertyRequest propertyRequest) {
@@ -52,11 +57,15 @@ public class PropertyServiceImpl implements PropertyService {
         property.setYearBuilt(propertyRequest.getYearBuilt());
         property.setListedBy(propertyRequest.getListedBy());
         property.setUser(user);
+        if (propertyRequest.getImageId() != null) {
+            Image image = imageRepository.findById(propertyRequest.getImageId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Image not found with id: " + propertyRequest.getImageId()));
+            property.setImage(image);
+        }
         property.setFeatured(propertyRequest.isFeatured());
-        property.setViewsCount(0); // Initialize views to 0
+        property.setViewsCount(0);
         property.setCreatedAt(LocalDateTime.now());
         property.setUpdatedAt(LocalDateTime.now());
-
 
         Property savedProperty = propertyRepository.save(property);
         return new PropertyResponse(savedProperty);
@@ -85,11 +94,20 @@ public class PropertyServiceImpl implements PropertyService {
         if (propertyDetails.isParking()) property.setParking(propertyDetails.isParking());
         if (propertyDetails.getYearBuilt() >= 1900) property.setYearBuilt(propertyDetails.getYearBuilt());
         if (propertyDetails.getListedBy() != null) property.setListedBy(propertyDetails.getListedBy());
+        if (propertyDetails.getImageId() != null) {
+            Image image = imageRepository.findById(propertyDetails.getImageId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Image not found with id: " + propertyDetails.getImageId()));
+            property.setImage(image);
+        } else if (propertyDetails.getImageId() == null) {
+            property.setImage(null); // Allow clearing the image
+        }
         property.setFeatured(propertyDetails.isFeatured());
         property.setUpdatedAt(LocalDateTime.now());
 
-        return new PropertyResponse(propertyRepository.save(property));
+        Property updatedProperty = propertyRepository.save(property);
+        return new PropertyResponse(updatedProperty);
     }
+
 
     @Override
     public void deleteProperty(String propertyId) {

@@ -52,6 +52,9 @@ public class PropertyRequest {
     @NotNull(message = "User ID is required")
     private Long userId; // Reference to User ID to avoid circular references
 
+    @NotNull(message = "Image ID is required")
+    private Long imageId;
+
     private boolean isFeatured;
 
 }

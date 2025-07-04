@@ -26,6 +26,7 @@ public class PropertyResponse {
     private int yearBuilt;
     private ListedBy listedBy;
     private Long userId; // Instead of full User object
+    private Long imageId;
     private boolean isFeatured;
     private int viewsCount;
     private LocalDateTime createdAt;
@@ -49,6 +50,7 @@ public class PropertyResponse {
         this.yearBuilt = property.getYearBuilt();
         this.listedBy = property.getListedBy();
         this.userId = (property.getUser() != null) ? property.getUser().getUserId() : null;
+        this.imageId = property.getImage() != null ? property.getImage().getId() : null;
         this.isFeatured = property.isFeatured();
         this.viewsCount = property.getViewsCount();
         this.createdAt = property.getCreatedAt();
