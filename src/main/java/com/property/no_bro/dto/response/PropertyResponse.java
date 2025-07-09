@@ -16,6 +16,7 @@ public class PropertyResponse {
     private Furnishing furnishing;
     private String status;
     private double price;
+    private double deposit;
     private double area;
     private int bedrooms;
     private int bathrooms;
@@ -40,6 +41,7 @@ public class PropertyResponse {
         this.furnishing = property.getFurnishing();
         this.status = property.getStatus();
         this.price = property.getPrice();
+        this.deposit = property.getDeposit();
         this.area = property.getArea();
         this.bedrooms = property.getBedrooms();
         this.bathrooms = property.getBathrooms();

@@ -23,6 +23,9 @@ public class PropertyRequest {
     @Positive(message = "Price must be positive")
     private double price;
 
+    @Positive(message = "Deposit must be positive")
+    private double deposit;
+
     @Positive(message = "Area must be positive")
     private double area;
 

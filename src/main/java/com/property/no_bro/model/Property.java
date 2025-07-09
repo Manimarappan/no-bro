@@ -27,6 +27,7 @@ public class Property {
 
     private String status;
     private double price;
+    private double deposit;
     private double area;
     private int bedrooms;
     private int bathrooms;

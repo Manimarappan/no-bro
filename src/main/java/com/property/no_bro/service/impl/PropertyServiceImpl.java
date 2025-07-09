@@ -47,6 +47,7 @@ public class PropertyServiceImpl implements PropertyService {
         property.setFurnishing(propertyRequest.getFurnishing());
         property.setStatus(propertyRequest.getStatus());
         property.setPrice(propertyRequest.getPrice());
+        property.setDeposit(propertyRequest.getDeposit());
         property.setArea(propertyRequest.getArea());
         property.setBedrooms(propertyRequest.getBedrooms());
         property.setBathrooms(propertyRequest.getBathrooms());
@@ -85,6 +86,7 @@ public class PropertyServiceImpl implements PropertyService {
         if (propertyDetails.getFurnishing() != null) property.setFurnishing(propertyDetails.getFurnishing());
         if (propertyDetails.getStatus() != null) property.setStatus(propertyDetails.getStatus());
         if (propertyDetails.getPrice() > 0) property.setPrice(propertyDetails.getPrice());
+        if (propertyDetails.getDeposit() > 0) property.setDeposit(propertyDetails.getDeposit());
         if (propertyDetails.getArea() > 0) property.setArea(propertyDetails.getArea());
         if (propertyDetails.getBedrooms() >= 0) property.setBedrooms(propertyDetails.getBedrooms());
         if (propertyDetails.getBathrooms() >= 0) property.setBathrooms(propertyDetails.getBathrooms());
