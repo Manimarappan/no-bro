@@ -1,10 +1,15 @@
 package com.property.no_bro.controller;
 
 import com.property.no_bro.dto.request.PropertyRequest;
+import com.property.no_bro.dto.response.AddressResponse;
+import com.property.no_bro.dto.response.ImageResponse;
 import com.property.no_bro.dto.response.PropertyResponse;
 import com.property.no_bro.dto.ApiResponse;
 import com.property.no_bro.exception.InvalidInputException;
 import com.property.no_bro.exception.ResourceNotFoundException;
+import com.property.no_bro.model.Address;
+import com.property.no_bro.service.AddressService;
+import com.property.no_bro.service.ImageService;
 import com.property.no_bro.service.PropertyService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +23,12 @@ import java.util.List;
 public class PropertyController {
     @Autowired
     private PropertyService propertyService;
+
+    @Autowired
+    private AddressService addressService;
+
+    @Autowired
+    private ImageService imageService;
 
     @PostMapping
     public ResponseEntity<ApiResponse<PropertyResponse>> createProperty(@Valid @RequestBody PropertyRequest propertyRequest) {
@@ -125,4 +136,25 @@ public class PropertyController {
             return ResponseEntity.status(400).body(ApiResponse.failure(e.getMessage(), 400));
         }
     }
+
+    @GetMapping("/address/{id}")
+    public ResponseEntity<ApiResponse<AddressResponse>> getPropertyAddress(@PathVariable long id) {
+        try{
+            AddressResponse address = addressService.getAddressById(id);
+            return ResponseEntity.ok(ApiResponse.success(address, "Properties retrieved by listed by", 200));
+        } catch (InvalidInputException e) {
+            return ResponseEntity.status(400).body(ApiResponse.failure(e.getMessage(), 400));
+        }
+    }
+
+    @GetMapping("/images/{id}")
+    public ResponseEntity<ApiResponse<ImageResponse>> getPropertyImage(@PathVariable Long id) {
+        try {
+            ImageResponse image = imageService.getImage(id);
+            return ResponseEntity.ok(ApiResponse.success(image, "Image retrieved successfully", 200));
+        } catch (InvalidInputException e) {
+            return ResponseEntity.status(400).body(ApiResponse.failure(e.getMessage(), 400));
+        }
+    }
+
 }

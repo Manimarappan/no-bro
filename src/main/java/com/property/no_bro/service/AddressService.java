@@ -10,7 +10,8 @@ public interface AddressService {
     AddressResponse getAddressById(Long addressId);
     AddressResponse updateAddress(Long addressId, AddressRequest addressRequest);
     void deleteAddress(Long addressId);
-    List<AddressResponse> getAddressesByPropertyId(String propertyId); // Changed from Long to String
+
+//    List<AddressResponse> getAddressesByPropertyId(String propertyId); // Changed from Long to String
 
     List<AddressResponse> getAddressesByCity(String city);
 

@@ -14,9 +14,9 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long addressId;
 
-    @OneToOne
-    @JoinColumn(name = "propertyId", referencedColumnName = "propertyId")
-    private Property property;
+//    @OneToOne
+//    @JoinColumn(name = "propertyId", referencedColumnName = "propertyId")
+//    private Property property;
 
     private String street;
     private String landmark;

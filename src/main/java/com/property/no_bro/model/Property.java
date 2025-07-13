@@ -45,6 +45,10 @@ public class Property {
     private User user;
 
     @ManyToOne
+    @JoinColumn(name = "addressId", referencedColumnName = "addressId")
+    private Address address;
+
+    @ManyToOne
     @JoinColumn(name = "imageId", referencedColumnName = "id")
     private Image image;
 

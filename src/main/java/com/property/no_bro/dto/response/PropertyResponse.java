@@ -13,6 +13,7 @@ public class PropertyResponse {
     private String propertyId;
     private String propertyName;
     private PropertyType propertyType;
+    private long address;
     private Furnishing furnishing;
     private String status;
     private double price;
@@ -38,6 +39,7 @@ public class PropertyResponse {
         this.propertyId = property.getPropertyId();
         this.propertyName = property.getPropertyName();
         this.propertyType = property.getPropertyType();
+        this.address = property.getAddress().getAddressId();
         this.furnishing = property.getFurnishing();
         this.status = property.getStatus();
         this.price = property.getPrice();

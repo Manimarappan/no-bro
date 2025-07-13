@@ -2,9 +2,11 @@ package com.property.no_bro.service.impl;
 
 import com.property.no_bro.dto.request.PropertyRequest;
 import com.property.no_bro.dto.response.PropertyResponse;
+import com.property.no_bro.model.Address;
 import com.property.no_bro.model.Image;
 import com.property.no_bro.model.Property;
 import com.property.no_bro.model.User;
+import com.property.no_bro.repository.AddressRepository;
 import com.property.no_bro.repository.ImageRepository;
 import com.property.no_bro.repository.PropertyRepository;
 import com.property.no_bro.repository.UserRepository;
@@ -33,6 +35,9 @@ public class PropertyServiceImpl implements PropertyService {
     @Autowired
     private ImageRepository imageRepository;
 
+    @Autowired
+    private AddressRepository addressRepository;
+
     @Override
     public PropertyResponse saveProperty(PropertyRequest propertyRequest) {
         if (propertyRequest.getUserId() == null) {
@@ -41,9 +46,13 @@ public class PropertyServiceImpl implements PropertyService {
         User user = userRepository.findById(propertyRequest.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + propertyRequest.getUserId()));
 
+        Address address = addressRepository.findById(propertyRequest.getAddress())
+                .orElseThrow(() -> new ResourceNotFoundException("Address not found with id: " + propertyRequest.getAddress()));
+
         Property property = new Property();
         property.setPropertyName(propertyRequest.getPropertyName());
         property.setPropertyType(propertyRequest.getPropertyType());
+        property.setAddress(address);
         property.setFurnishing(propertyRequest.getFurnishing());
         property.setStatus(propertyRequest.getStatus());
         property.setPrice(propertyRequest.getPrice());
@@ -102,6 +111,14 @@ public class PropertyServiceImpl implements PropertyService {
             property.setImage(image);
         } else if (propertyDetails.getImageId() == null) {
             property.setImage(null); // Allow clearing the image
+        }
+
+        if (propertyDetails.getAddress() != 0) { // Optional: Check if address ID is not 0, if 0 is invalid
+            Address address = addressRepository.findById(propertyDetails.getAddress())
+                    .orElseThrow(() -> new ResourceNotFoundException("Address not found with id: " + propertyDetails.getAddress()));
+            property.setAddress(address); // Use setPropertyAddress as per your Property entity
+        } else if (propertyDetails.getAddress() == 0) {
+            property.setAddress(null);
         }
         property.setFeatured(propertyDetails.isFeatured());
         property.setUpdatedAt(LocalDateTime.now());

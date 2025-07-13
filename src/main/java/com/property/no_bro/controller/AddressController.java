@@ -53,11 +53,11 @@ public class AddressController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/property/{propertyId}")
-    public ResponseEntity<List<AddressResponse>> getAddressesByPropertyId(@PathVariable String propertyId) {
-        List<AddressResponse> responses = addressService.getAddressesByPropertyId(propertyId);
-        return ResponseEntity.ok(responses);
-    }
+//    @GetMapping("/property/{propertyId}")
+//    public ResponseEntity<List<AddressResponse>> getAddressesByPropertyId(@PathVariable String propertyId) {
+//        List<AddressResponse> responses = addressService.getAddressesByPropertyId(propertyId);
+//        return ResponseEntity.ok(responses);
+//    }
 
     @GetMapping("/city/{city}")
     public ResponseEntity<List<AddressResponse>> getAddressesByCity(@PathVariable String city) {

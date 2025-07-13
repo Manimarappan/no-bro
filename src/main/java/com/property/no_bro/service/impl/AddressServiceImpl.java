@@ -28,11 +28,6 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public AddressResponse createAddress(AddressRequest request) {
-        if (request.getPropertyId() == null) {
-            throw new IllegalArgumentException("Property ID must not be null");
-        }
-        Property property = propertyRepository.findById(request.getPropertyId())
-                .orElseThrow(() -> new ResourceNotFoundException("Property not found with ID: " + request.getPropertyId()));
 
         Address address = new Address();
 //        address.setProperty(property);
@@ -65,16 +60,16 @@ public class AddressServiceImpl implements AddressService {
         if (addressId == null) {
             throw new IllegalArgumentException("Address ID must not be null");
         }
-        if (request.getPropertyId() == null) {
-            throw new IllegalArgumentException("Property ID must not be null");
-        }
+//        if (request.getPropertyId() == null) {
+//            throw new IllegalArgumentException("Property ID must not be null");
+//        }
         Address address = addressRepository.findById(addressId)
                 .orElseThrow(() -> new ResourceNotFoundException("Address not found with ID: " + addressId));
 
-        Property property = propertyRepository.findById(request.getPropertyId())
-                .orElseThrow(() -> new ResourceNotFoundException("Property not found with ID: " + request.getPropertyId()));
-
-        address.setProperty(property);
+//        Property property = propertyRepository.findById(request.getPropertyId())
+//                .orElseThrow(() -> new ResourceNotFoundException("Property not found with ID: " + request.getPropertyId()));
+//
+//        address.setProperty(property);
         address.setStreet(request.getStreet());
         address.setLandmark(request.getLandmark());
         address.setArea(request.getArea());
@@ -100,16 +95,16 @@ public class AddressServiceImpl implements AddressService {
         addressRepository.deleteById(addressId);
     }
 
-    @Override
-    public List<AddressResponse> getAddressesByPropertyId(String propertyId) {
-        if (propertyId == null) {
-            throw new IllegalArgumentException("Property ID must not be null");
-        }
-        return addressRepository.findByPropertyPropertyId(propertyId)
-                .stream()
-                .map(AddressResponse::new)
-                .collect(Collectors.toList());
-    }
+//    @Override
+//    public List<AddressResponse> getAddressesByPropertyId(String propertyId) {
+//        if (propertyId == null) {
+//            throw new IllegalArgumentException("Property ID must not be null");
+//        }
+//        return addressRepository.findByPropertyPropertyId(propertyId)
+//                .stream()
+//                .map(AddressResponse::new)
+//                .collect(Collectors.toList());
+//    }
 
     @Override
     public List<AddressResponse> getAddressesByCity(String city) {

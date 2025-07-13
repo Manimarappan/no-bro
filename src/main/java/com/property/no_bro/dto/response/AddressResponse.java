@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 @Data
 public class AddressResponse {
     private Long addressId;
-    private String propertyId;
+//    private String propertyId;
     private String street;
     private String landmark;
     private String area;
@@ -21,7 +21,7 @@ public class AddressResponse {
 
     public AddressResponse(Address address) {
         this.addressId = address.getAddressId();
-        this.propertyId = address.getProperty() != null ? address.getProperty().getPropertyId() : null;
+//        this.propertyId = address.getProperty() != null ? address.getProperty().getPropertyId() : null;
         this.street = address.getStreet();
         this.landmark = address.getLandmark();
         this.area = address.getArea();
