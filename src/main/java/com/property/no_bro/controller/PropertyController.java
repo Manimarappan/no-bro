@@ -157,4 +157,16 @@ public class PropertyController {
         }
     }
 
+    @GetMapping("/bhk/{bhk}")
+    public ResponseEntity<ApiResponse<List<PropertyResponse>>> getPropertiesByBhk(@PathVariable String bhk) {
+        try {
+            List<PropertyResponse> properties = propertyService.getPropertiesByBhk(bhk);
+            return ResponseEntity.ok(ApiResponse.success(properties, "Properties retrieved by bhk", 200));
+        } catch (InvalidInputException e) {
+            return ResponseEntity.status(400).body(ApiResponse.failure(e.getMessage(), 400));
+        }
+    }
+
+
+
 }

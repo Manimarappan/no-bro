@@ -3,7 +3,6 @@ package com.property.no_bro.dto.request;
 import com.property.no_bro.enums.Furnishing;
 import com.property.no_bro.enums.ListedBy;
 import com.property.no_bro.enums.PropertyType;
-import com.property.no_bro.model.Address;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -17,6 +16,9 @@ public class PropertyRequest {
 
     @NotNull(message = "Property Location is required")
     private long address;
+
+    @NotNull(message = "property BHK is required")
+    private String bhk;
 
     @NotNull(message = "Furnishing is required")
     private Furnishing furnishing;

@@ -15,4 +15,6 @@ public interface PropertyRepository extends JpaRepository<Property, String> {
     List<Property> findByBedroomsGreaterThanEqual(int bedrooms);
     List<Property> findByStatus(String status);
     List<Property> findByListedBy(ListedBy listedBy);
+
+    List<Property> findByBhk(String type);
 }

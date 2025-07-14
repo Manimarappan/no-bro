@@ -25,6 +25,8 @@ public class Property {
     @Enumerated(EnumType.STRING)
     private Furnishing furnishing;
 
+    private String bhk;
+
     private String status;
     private double price;
     private double deposit;

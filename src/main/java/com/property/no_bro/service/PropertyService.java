@@ -1,8 +1,11 @@
 package com.property.no_bro.service;
 
+import com.property.no_bro.dto.ApiResponse;
 import com.property.no_bro.dto.request.PropertyRequest;
 import com.property.no_bro.dto.response.PropertyResponse;
 import com.property.no_bro.model.Property;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,5 +23,7 @@ public interface PropertyService {
     List<PropertyResponse> getPropertiesByBedrooms(int bedrooms);
     List<PropertyResponse> getPropertiesByStatus(String status);
     List<PropertyResponse> getPropertiesByListedBy(String listedBy);
+
+    List<PropertyResponse> getPropertiesByBhk(String bhk);
 
 }

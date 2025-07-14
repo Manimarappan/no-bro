@@ -53,6 +53,7 @@ public class PropertyServiceImpl implements PropertyService {
         property.setPropertyName(propertyRequest.getPropertyName());
         property.setPropertyType(propertyRequest.getPropertyType());
         property.setAddress(address);
+        property.setBhk(propertyRequest.getBhk());
         property.setFurnishing(propertyRequest.getFurnishing());
         property.setStatus(propertyRequest.getStatus());
         property.setPrice(propertyRequest.getPrice());
@@ -92,6 +93,7 @@ public class PropertyServiceImpl implements PropertyService {
                 .orElseThrow(() -> new ResourceNotFoundException("Property not found with id: " + propertyId));
         if (propertyDetails.getPropertyName() != null) property.setPropertyName(propertyDetails.getPropertyName());
         if (propertyDetails.getPropertyType() != null) property.setPropertyType(propertyDetails.getPropertyType());
+        if (propertyDetails.getBhk() != null) property.setBhk(propertyDetails.getBhk());
         if (propertyDetails.getFurnishing() != null) property.setFurnishing(propertyDetails.getFurnishing());
         if (propertyDetails.getStatus() != null) property.setStatus(propertyDetails.getStatus());
         if (propertyDetails.getPrice() > 0) property.setPrice(propertyDetails.getPrice());
@@ -109,17 +111,14 @@ public class PropertyServiceImpl implements PropertyService {
             Image image = imageRepository.findById(propertyDetails.getImageId())
                     .orElseThrow(() -> new ResourceNotFoundException("Image not found with id: " + propertyDetails.getImageId()));
             property.setImage(image);
-        } else if (propertyDetails.getImageId() == null) {
-            property.setImage(null); // Allow clearing the image
         }
 
         if (propertyDetails.getAddress() != 0) { // Optional: Check if address ID is not 0, if 0 is invalid
             Address address = addressRepository.findById(propertyDetails.getAddress())
                     .orElseThrow(() -> new ResourceNotFoundException("Address not found with id: " + propertyDetails.getAddress()));
             property.setAddress(address); // Use setPropertyAddress as per your Property entity
-        } else if (propertyDetails.getAddress() == 0) {
-            property.setAddress(null);
         }
+
         property.setFeatured(propertyDetails.isFeatured());
         property.setUpdatedAt(LocalDateTime.now());
 
@@ -206,4 +205,17 @@ public class PropertyServiceImpl implements PropertyService {
             throw new InvalidInputException("Invalid listed by type: " + listedBy);
         }
     }
+
+    @Override
+    public List<PropertyResponse> getPropertiesByBhk(String bhk) {
+        try {
+            List<Property> properties = propertyRepository.findByBhk(bhk);
+            return properties.stream()
+                    .map(PropertyResponse::new)
+                    .collect(Collectors.toList());
+        } catch (IllegalArgumentException e) {
+            throw new InvalidInputException("Error fetching properties for bhk: " + bhk);
+        }
+    }
+
 }
