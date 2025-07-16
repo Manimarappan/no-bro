@@ -16,10 +16,15 @@ import com.property.no_bro.enums.ListedBy;
 import com.property.no_bro.enums.PropertyType;
 import com.property.no_bro.exception.InvalidInputException;
 import com.property.no_bro.exception.ResourceNotFoundException;
+import jakarta.persistence.criteria.Join;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
+import jakarta.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -135,9 +140,14 @@ public class PropertyServiceImpl implements PropertyService {
         propertyRepository.deleteById(propertyId);
     }
 
+//    @Override
+//    public List<PropertyResponse> getAllProperties() {
+//        return propertyRepository.findAll().stream().map(PropertyResponse::new).collect(Collectors.toList());
+//    }
+
     @Override
-    public List<PropertyResponse> getAllProperties() {
-        return propertyRepository.findAll().stream().map(PropertyResponse::new).collect(Collectors.toList());
+    public Page<PropertyResponse> getAllProperties(Pageable pageable) {
+        return propertyRepository.findAll(pageable).map(PropertyResponse::new);
     }
 
     @Override
@@ -216,6 +226,51 @@ public class PropertyServiceImpl implements PropertyService {
         } catch (IllegalArgumentException e) {
             throw new InvalidInputException("Error fetching properties for bhk: " + bhk);
         }
+    }
+
+    @Override
+    public Page<PropertyResponse> searchProperties(
+            String propertyType,
+            String bhk,
+            String furnishing,
+            double rent,
+            String city,
+            Pageable pageable
+    ) {
+        Specification<Property> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (!propertyType.isEmpty()) {
+                try {
+                    predicates.add(cb.equal(root.<PropertyType>get("propertyType"), PropertyType.valueOf(propertyType.toUpperCase())));
+                } catch (IllegalArgumentException e) {
+                    // Ignore invalid enum value
+                }
+            }
+            if (!bhk.isEmpty()) {
+                predicates.add(cb.equal(root.<String>get("bhk"), bhk));
+            }
+            if (!furnishing.isEmpty()) {
+                try {
+                    predicates.add(cb.equal(root.<Furnishing>get("furnishing"), Furnishing.valueOf(furnishing.toUpperCase())));
+                } catch (IllegalArgumentException e) {
+                    // Ignore invalid enum value
+                }
+            }
+            if (rent > 0) {
+                predicates.add(cb.lessThanOrEqualTo(root.<Double>get("price"), rent));
+            }
+            if (!city.isEmpty()) {
+                Join<Property, Address> addressJoin = root.join("address");
+                predicates.add(cb.equal(cb.lower(addressJoin.<String>get("city")), city.toLowerCase()));
+            }
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+        return propertyRepository.findAll(spec, pageable)
+                .map(this::convertToPropertyResponse);
+    }
+
+    private PropertyResponse convertToPropertyResponse(Property property) {
+        return new PropertyResponse(property);
     }
 
 }

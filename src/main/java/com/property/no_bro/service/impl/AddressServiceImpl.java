@@ -33,7 +33,7 @@ public class AddressServiceImpl implements AddressService {
 //        address.setProperty(property);
         address.setStreet(request.getStreet());
         address.setLandmark(request.getLandmark());
-        address.setArea(request.getArea());
+        address.setLocation(request.getLocation());
         address.setCity(request.getCity());
         address.setState(request.getState());
         address.setCountry(request.getCountry());
@@ -72,7 +72,7 @@ public class AddressServiceImpl implements AddressService {
 //        address.setProperty(property);
         address.setStreet(request.getStreet());
         address.setLandmark(request.getLandmark());
-        address.setArea(request.getArea());
+        address.setLocation(request.getLocation());
         address.setCity(request.getCity());
         address.setState(request.getState());
         address.setCountry(request.getCountry());

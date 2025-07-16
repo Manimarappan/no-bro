@@ -7,12 +7,14 @@ import com.property.no_bro.dto.response.PropertyResponse;
 import com.property.no_bro.dto.ApiResponse;
 import com.property.no_bro.exception.InvalidInputException;
 import com.property.no_bro.exception.ResourceNotFoundException;
-import com.property.no_bro.model.Address;
 import com.property.no_bro.service.AddressService;
 import com.property.no_bro.service.ImageService;
 import com.property.no_bro.service.PropertyService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,9 +65,18 @@ public class PropertyController {
         }
     }
 
+//    @GetMapping
+//    public ResponseEntity<ApiResponse<List<PropertyResponse>>> getAllProperties() {
+//        List<PropertyResponse> properties = propertyService.getAllProperties();
+//        return ResponseEntity.ok(ApiResponse.success(properties, "Properties retrieved successfully", 200));
+//    }
+
     @GetMapping
-    public ResponseEntity<ApiResponse<List<PropertyResponse>>> getAllProperties() {
-        List<PropertyResponse> properties = propertyService.getAllProperties();
+    public ResponseEntity<ApiResponse<Page<PropertyResponse>>> getAllProperties(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<PropertyResponse> properties = propertyService.getAllProperties(pageable);
         return ResponseEntity.ok(ApiResponse.success(properties, "Properties retrieved successfully", 200));
     }
 
@@ -167,6 +178,21 @@ public class PropertyController {
         }
     }
 
+    // New method for filtered properties
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<Page<PropertyResponse>>> searchProperties(
+            @RequestParam(defaultValue = "") String propertyType,
+            @RequestParam(defaultValue = "") String bhk,
+            @RequestParam(defaultValue = "") String furnishing,
+            @RequestParam(defaultValue = "0") double rent,
+            @RequestParam(defaultValue = "") String city,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) { // Matches frontend pageSize=5
+        Pageable pageable = PageRequest.of(page, size);
+        Page<PropertyResponse> properties = propertyService.searchProperties(
+                propertyType, bhk, furnishing, rent, city, pageable);
+        return ResponseEntity.ok(ApiResponse.success(properties, "Filtered properties retrieved successfully", 200));
+    }
 
 
 }

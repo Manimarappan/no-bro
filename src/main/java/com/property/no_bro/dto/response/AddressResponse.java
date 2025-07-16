@@ -11,7 +11,7 @@ public class AddressResponse {
 //    private String propertyId;
     private String street;
     private String landmark;
-    private String area;
+    private String location;
     private String city;
     private String state;
     private String country;
@@ -24,7 +24,7 @@ public class AddressResponse {
 //        this.propertyId = address.getProperty() != null ? address.getProperty().getPropertyId() : null;
         this.street = address.getStreet();
         this.landmark = address.getLandmark();
-        this.area = address.getArea();
+        this.location = address.getLocation();
         this.city = address.getCity();
         this.state = address.getState();
         this.country = address.getCountry();

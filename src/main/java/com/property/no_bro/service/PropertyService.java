@@ -4,6 +4,8 @@ import com.property.no_bro.dto.ApiResponse;
 import com.property.no_bro.dto.request.PropertyRequest;
 import com.property.no_bro.dto.response.PropertyResponse;
 import com.property.no_bro.model.Property;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -15,7 +17,8 @@ public interface PropertyService {
     Optional<PropertyResponse> getPropertyById(String propertyId);
     PropertyResponse updateProperty(String propertyId, PropertyRequest propertyDetails);
     void deleteProperty(String propertyId);
-    List<PropertyResponse> getAllProperties();
+//    List<PropertyResponse> getAllProperties();
+    Page<PropertyResponse> getAllProperties(Pageable pageable);
     List<PropertyResponse> getPropertiesByType(String propertyType);
     List<PropertyResponse> getPropertiesByFurnishing(String furnishing);
 //    List<PropertyResponse> getAvailableProperties(String status);
@@ -25,5 +28,7 @@ public interface PropertyService {
     List<PropertyResponse> getPropertiesByListedBy(String listedBy);
 
     List<PropertyResponse> getPropertiesByBhk(String bhk);
+
+    Page<PropertyResponse> searchProperties(String propertyType, String bhk, String furnishing, double rent, String city, Pageable pageable);
 
 }

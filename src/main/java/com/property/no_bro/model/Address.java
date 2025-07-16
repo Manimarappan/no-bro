@@ -20,7 +20,7 @@ public class Address {
 
     private String street;
     private String landmark;
-    private String area;
+    private String location;
     private String city;
     private String state;
     private String country;
