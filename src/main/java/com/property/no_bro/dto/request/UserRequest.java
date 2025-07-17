@@ -1,6 +1,7 @@
 package com.property.no_bro.dto.request;
 
 import com.property.no_bro.enums.UserType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -21,7 +22,7 @@ public class UserRequest {
     private String password;
 
     @NotBlank(message = "Phone number is required")
-    @Pattern(regexp = "^\\d{10}$", message = "Phone number must be 10 digits")
+    @Pattern(regexp = "^\\+?[1-9]\\d{1,14}$", message = "Phone number must be a valid number with country code")
     private String phoneNumber;
 
     @NotNull(message = "User type is required")

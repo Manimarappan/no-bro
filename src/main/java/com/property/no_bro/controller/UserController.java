@@ -1,5 +1,6 @@
 package com.property.no_bro.controller;
 
+import com.property.no_bro.dto.request.LoginRequest;
 import com.property.no_bro.dto.request.UserRequest;
 import com.property.no_bro.dto.response.UserResponse;
 import com.property.no_bro.dto.ApiResponse;
@@ -54,5 +55,15 @@ public class UserController {
     public ResponseEntity<ApiResponse<List<UserResponse>>> getAllUsers() {
         List<UserResponse> users = userService.getAllUsers();
         return ResponseEntity.ok(ApiResponse.success(users, "Users retrieved successfully", 200));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<UserResponse>> login(@Valid @RequestBody LoginRequest loginRequest) {
+        try{
+            UserResponse userResponse = userService.login(loginRequest.getEmail(), loginRequest.getPassword());
+            return ResponseEntity.ok(ApiResponse.success(userResponse,"Login successful", 200));
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body(ApiResponse.failure("User not found", 404));
+        }
     }
 }

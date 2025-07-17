@@ -8,6 +8,7 @@ import com.property.no_bro.service.UserService;
 import com.property.no_bro.exception.InvalidInputException;
 import com.property.no_bro.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,9 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public UserResponse saveUser(UserRequest userRequest) {
@@ -32,12 +36,11 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(userRequest.getFirstName());
         user.setLastName(userRequest.getLastName());
         user.setEmail(userRequest.getEmail());
-        user.setPassword(userRequest.getPassword()); // Hash this in a real app
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));// Hash this in a real app
         user.setPhoneNumber(userRequest.getPhoneNumber());
         user.setUserType(userRequest.getUserType());
         user.setCreatedAt(java.time.LocalDateTime.now());
         user.setUpdatedAt(java.time.LocalDateTime.now());
-        user.setStatus("ACTIVE");
 
         User savedUser = userRepository.save(user);
         return new UserResponse(savedUser);
@@ -75,5 +78,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<UserResponse> findByEmail(String email) {
         return userRepository.findByEmail(email).map(UserResponse::new);
+    }
+
+    @Override
+    public UserResponse login(String email, String password) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new InvalidInputException("Invalid email or password"));
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new InvalidInputException("Invalid email or password");
+        }
+        return new UserResponse(user);
     }
 }

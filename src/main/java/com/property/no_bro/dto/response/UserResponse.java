@@ -33,6 +33,5 @@ public class UserResponse {
         this.lastLogin = user.getLastLogin();
         this.createdAt = user.getCreatedAt();
         this.updatedAt = user.getUpdatedAt();
-        this.status = user.getStatus();
     }
 }

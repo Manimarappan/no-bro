@@ -13,4 +13,6 @@ public interface UserService {
     void deleteUser(Long userId);
     List<UserResponse> getAllUsers();
     Optional<UserResponse> findByEmail(String email);
+
+    UserResponse login(String email, String password);
 }
