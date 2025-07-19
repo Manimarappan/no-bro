@@ -23,6 +23,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/address", "/api/address/**").permitAll()
                         .requestMatchers("/api/images", "/api/images/**").permitAll()
                         .requestMatchers("/api/properties", "/api/properties/**").permitAll() // Property search endpoint
+                        .requestMatchers("/api/liked-properties", "/api/liked-properties/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable())
