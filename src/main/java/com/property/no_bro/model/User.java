@@ -24,7 +24,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String profilePic;
+    
     private boolean isVerified;
     private LocalDateTime lastLogin;
     private LocalDateTime createdAt;

@@ -2,13 +2,16 @@ package com.property.no_bro.controller;
 
 import com.property.no_bro.dto.request.LoginRequest;
 import com.property.no_bro.dto.request.UserRequest;
+import com.property.no_bro.dto.request.UserUpdateRequest;
 import com.property.no_bro.dto.response.UserResponse;
 import com.property.no_bro.dto.ApiResponse;
 import com.property.no_bro.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -32,7 +35,7 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<ApiResponse<UserResponse>> updateUser(@PathVariable Long userId, @Valid @RequestBody UserRequest userDetails) {
+    public ResponseEntity<ApiResponse<UserResponse>> updateUser(@PathVariable Long userId, @Valid @RequestBody UserUpdateRequest userDetails) {
         try {
             UserResponse updatedUser = userService.updateUser(userId, userDetails);
             return ResponseEntity.ok(ApiResponse.success(updatedUser, "User updated successfully", 200));
@@ -64,6 +67,16 @@ public class UserController {
             return ResponseEntity.ok(ApiResponse.success(userResponse,"Login successful", 200));
         } catch (Exception e) {
             return ResponseEntity.status(404).body(ApiResponse.failure("User not found", 404));
+        }
+    }
+
+    @PutMapping(value = "/{userId}/profile-pic", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<ApiResponse<UserResponse>> updateProfilePic(@PathVariable Long userId, @RequestParam("profilePic") MultipartFile profilePic) {
+        try {
+            UserResponse updatedUser = userService.updateProfilePic(userId, profilePic);
+            return ResponseEntity.ok(ApiResponse.success(updatedUser, "Profile picture updated successfully", 200));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(400).body(ApiResponse.failure(e.getMessage(), 400));
         }
     }
 }
