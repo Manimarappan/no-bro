@@ -3,10 +3,12 @@ package com.property.no_bro.controller;
 import com.property.no_bro.dto.ApiResponse;
 import com.property.no_bro.dto.request.AddressRequest;
 import com.property.no_bro.dto.response.AddressResponse;
+import com.property.no_bro.dto.response.PropertyResponse;
 import com.property.no_bro.exception.ResourceNotFoundException;
 import com.property.no_bro.service.AddressService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +27,9 @@ public class AddressController {
     }
 
     @PostMapping
-    public ResponseEntity<AddressResponse> createAddress(@RequestBody AddressRequest request) {
+    public ResponseEntity<ApiResponse<AddressResponse>> createAddress(@RequestBody AddressRequest request) {
         AddressResponse response = addressService.createAddress(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.ok(ApiResponse.success(response, "Address Added successfully", 200));
     }
 
     @GetMapping("/{addressId}")

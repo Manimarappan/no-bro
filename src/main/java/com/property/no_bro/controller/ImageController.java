@@ -1,6 +1,8 @@
 package com.property.no_bro.controller;
 
+import com.property.no_bro.dto.ApiResponse;
 import com.property.no_bro.dto.request.ImageRequest;
+import com.property.no_bro.dto.response.AddressResponse;
 import com.property.no_bro.dto.response.ImageResponse;
 import com.property.no_bro.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +19,9 @@ public class ImageController {
     private ImageService imageService;
 
     @PostMapping
-    public ResponseEntity<ImageResponse> createImage(@ModelAttribute ImageRequest request) {
+    public ResponseEntity<ApiResponse<ImageResponse>> createImage(@ModelAttribute ImageRequest request) {
         ImageResponse response = imageService.saveImage(request);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return ResponseEntity.ok(ApiResponse.success(response, "Image Added successfully", 200));
     }
 
     @GetMapping("/{id}")

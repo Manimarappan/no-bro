@@ -20,7 +20,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/users", "/api/users/**").permitAll() // Signup endpoint
-                        .requestMatchers("/api/address", "/api/address/**").permitAll()
+                        .requestMatchers("/api/addresses", "/api/addresses/**").permitAll()
                         .requestMatchers("/api/images", "/api/images/**").permitAll()
                         .requestMatchers("/api/properties", "/api/properties/**").permitAll() // Property search endpoint
                         .requestMatchers("/api/liked-properties", "/api/liked-properties/**").permitAll()

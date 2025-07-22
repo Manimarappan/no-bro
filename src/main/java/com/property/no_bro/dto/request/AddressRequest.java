@@ -7,9 +7,6 @@ import java.math.BigDecimal;
 
 @Data
 public class AddressRequest {
-//    @NotBlank(message = "Property ID is required")
-//    @Pattern(regexp = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", message = "Property ID must be a valid UUID")
-//    private String propertyId;
 
     @NotBlank(message = "Street is required")
     private String street;
