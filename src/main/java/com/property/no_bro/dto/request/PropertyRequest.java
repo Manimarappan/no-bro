@@ -1,6 +1,5 @@
 package com.property.no_bro.dto.request;
 
-import com.property.no_bro.enums.Furnishing;
 import com.property.no_bro.enums.ListedBy;
 import com.property.no_bro.enums.PropertyType;
 import jakarta.validation.constraints.*;
@@ -21,7 +20,7 @@ public class PropertyRequest {
     private String bhk;
 
     @NotNull(message = "Furnishing is required")
-    private Furnishing furnishing;
+    private String furnishing;
 
     @NotBlank(message = "Status is required")
     private String status;
@@ -63,6 +62,8 @@ public class PropertyRequest {
 
     @NotNull(message = "Image ID is required")
     private Long imageId;
+
+    private String description;
 
     private boolean isFeatured;
 

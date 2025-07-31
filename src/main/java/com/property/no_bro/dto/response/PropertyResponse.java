@@ -1,6 +1,5 @@
 package com.property.no_bro.dto.response;
 
-import com.property.no_bro.enums.Furnishing;
 import com.property.no_bro.enums.ListedBy;
 import com.property.no_bro.enums.PropertyType;
 import com.property.no_bro.model.Property;
@@ -15,7 +14,7 @@ public class PropertyResponse {
     private PropertyType propertyType;
     private long address;
     private String bhk;
-    private Furnishing furnishing;
+    private String furnishing;
     private String status;
     private double price;
     private double deposit;
@@ -35,6 +34,7 @@ public class PropertyResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private boolean isAvailable;
+    private String description;
 
     public PropertyResponse(Property property) {
         this.propertyId = property.getPropertyId();
@@ -58,6 +58,7 @@ public class PropertyResponse {
         this.userId = (property.getUser() != null) ? property.getUser().getUserId() : null;
         this.imageId = property.getImage() != null ? property.getImage().getId() : null;
         this.isFeatured = property.isFeatured();
+        this.description = property.getDescription();
         this.viewsCount = property.getViewsCount();
         this.createdAt = property.getCreatedAt();
         this.updatedAt = property.getUpdatedAt();

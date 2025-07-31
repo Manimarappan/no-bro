@@ -25,9 +25,9 @@ public class ImageController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ImageResponse> getImage(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<ImageResponse>> getImage(@PathVariable Long id) {
         ImageResponse response = imageService.getImage(id);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(ApiResponse.success(response, "Image fetched successfully", 200));
     }
 
     @GetMapping("/{id}/data")

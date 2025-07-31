@@ -1,6 +1,5 @@
 package com.property.no_bro.model;
 
-import com.property.no_bro.enums.Furnishing;
 import com.property.no_bro.enums.ListedBy;
 import com.property.no_bro.enums.PropertyType;
 import jakarta.persistence.*;
@@ -22,8 +21,7 @@ public class Property {
     @Enumerated(EnumType.STRING)
     private PropertyType propertyType;
 
-    @Enumerated(EnumType.STRING)
-    private Furnishing furnishing;
+    private String furnishing;
 
     private String bhk;
 
@@ -53,6 +51,8 @@ public class Property {
     @ManyToOne
     @JoinColumn(name = "imageId", referencedColumnName = "id")
     private Image image;
+
+    private String description;
 
     private boolean isFeatured;
     private int viewsCount;

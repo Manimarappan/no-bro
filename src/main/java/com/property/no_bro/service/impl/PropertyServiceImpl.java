@@ -11,7 +11,6 @@ import com.property.no_bro.repository.ImageRepository;
 import com.property.no_bro.repository.PropertyRepository;
 import com.property.no_bro.repository.UserRepository;
 import com.property.no_bro.service.PropertyService;
-import com.property.no_bro.enums.Furnishing;
 import com.property.no_bro.enums.ListedBy;
 import com.property.no_bro.enums.PropertyType;
 import com.property.no_bro.exception.InvalidInputException;
@@ -79,6 +78,7 @@ public class PropertyServiceImpl implements PropertyService {
             property.setImage(image);
         }
         property.setFeatured(propertyRequest.isFeatured());
+        property.setDescription(propertyRequest.getDescription());
         property.setViewsCount(0);
         property.setCreatedAt(LocalDateTime.now());
         property.setUpdatedAt(LocalDateTime.now());
@@ -125,6 +125,9 @@ public class PropertyServiceImpl implements PropertyService {
         }
 
         property.setFeatured(propertyDetails.isFeatured());
+
+        if(propertyDetails.getDescription() != null) property.setDescription(propertyDetails.getDescription());
+
         property.setUpdatedAt(LocalDateTime.now());
 
         Property updatedProperty = propertyRepository.save(property);
@@ -164,8 +167,7 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public List<PropertyResponse> getPropertiesByFurnishing(String furnishing) {
         try {
-            Furnishing furnish = Furnishing.valueOf(furnishing.toUpperCase());
-            return propertyRepository.findByFurnishing(furnish).stream()
+            return propertyRepository.findByFurnishing(furnishing).stream()
                     .map(PropertyResponse::new).collect(Collectors.toList());
         } catch (IllegalArgumentException e) {
             throw new InvalidInputException("Invalid furnishing type: " + furnishing);
@@ -251,7 +253,7 @@ public class PropertyServiceImpl implements PropertyService {
             }
             if (!furnishing.isEmpty()) {
                 try {
-                    predicates.add(cb.equal(root.<Furnishing>get("furnishing"), Furnishing.valueOf(furnishing.toUpperCase())));
+                    predicates.add(cb.equal(root.<String>get("furnishing"), furnishing));
                 } catch (IllegalArgumentException e) {
                     // Ignore invalid enum value
                 }
