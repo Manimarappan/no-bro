@@ -22,4 +22,6 @@ public interface PropertyRepository extends JpaRepository<Property, String> {
     List<Property> findByBhk(String type);
 
     Page<Property> findAll(Specification<Property> spec, Pageable pageable);
+
+    List<Property> findByUserUserId(long userId);
 }

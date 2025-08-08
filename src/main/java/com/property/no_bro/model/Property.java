@@ -44,11 +44,11 @@ public class Property {
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     private User user;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "addressId", referencedColumnName = "addressId")
     private Address address;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "imageId", referencedColumnName = "id")
     private Image image;
 

@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,6 +46,7 @@ public class PropertyController {
                 .orElseGet(() -> ResponseEntity.status(404).body(ApiResponse.failure("Property not found", 404)));
     }
 
+
     @PutMapping("/{propertyId}")
     public ResponseEntity<ApiResponse<PropertyResponse>> updateProperty(@PathVariable String propertyId, @Valid @RequestBody PropertyRequest propertyDetails) {
         try {
@@ -56,6 +58,7 @@ public class PropertyController {
     }
 
     @DeleteMapping("/{propertyId}")
+    @Transactional
     public ResponseEntity<ApiResponse<Void>> deleteProperty(@PathVariable String propertyId) {
         try {
             propertyService.deleteProperty(propertyId);
@@ -192,6 +195,16 @@ public class PropertyController {
         Page<PropertyResponse> properties = propertyService.searchProperties(
                 propertyType, bhk, furnishing, rent, city, pageable);
         return ResponseEntity.ok(ApiResponse.success(properties, "Filtered properties retrieved successfully", 200));
+    }
+
+    @GetMapping("/userid/{userId}")
+    public ResponseEntity<ApiResponse<List<PropertyResponse>>> getProperty(@PathVariable long userId) {
+        try{
+            List<PropertyResponse> properties = propertyService.getUserId(userId);
+            return ResponseEntity.ok(ApiResponse.success(properties, "Properties retrieved by furnishing", 200));
+        }catch (InvalidInputException e) {
+            return ResponseEntity.status(400).body(ApiResponse.failure(e.getMessage(), 400));
+        }
     }
 
 

@@ -31,4 +31,5 @@ public interface PropertyService {
 
     Page<PropertyResponse> searchProperties(String propertyType, String bhk, String furnishing, double rent, String city, Pageable pageable);
 
+    List<PropertyResponse> getUserId(long userId);
 }

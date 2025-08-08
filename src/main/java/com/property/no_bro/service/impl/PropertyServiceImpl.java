@@ -1,15 +1,13 @@
 package com.property.no_bro.service.impl;
 
 import com.property.no_bro.dto.request.PropertyRequest;
+import com.property.no_bro.dto.response.LikedPropertyResponse;
 import com.property.no_bro.dto.response.PropertyResponse;
 import com.property.no_bro.model.Address;
 import com.property.no_bro.model.Image;
 import com.property.no_bro.model.Property;
 import com.property.no_bro.model.User;
-import com.property.no_bro.repository.AddressRepository;
-import com.property.no_bro.repository.ImageRepository;
-import com.property.no_bro.repository.PropertyRepository;
-import com.property.no_bro.repository.UserRepository;
+import com.property.no_bro.repository.*;
 import com.property.no_bro.service.PropertyService;
 import com.property.no_bro.enums.ListedBy;
 import com.property.no_bro.enums.PropertyType;
@@ -41,6 +39,9 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private LikedPropertyRepository likedPropertyRepository;
 
     @Override
     public PropertyResponse saveProperty(PropertyRequest propertyRequest) {
@@ -140,6 +141,7 @@ public class PropertyServiceImpl implements PropertyService {
         if (!propertyRepository.existsById(propertyId)) {
             throw new ResourceNotFoundException("Property not found with id: " + propertyId);
         }
+        likedPropertyRepository.deleteByProperty_PropertyId(propertyId);
         propertyRepository.deleteById(propertyId);
     }
 
@@ -274,5 +276,18 @@ public class PropertyServiceImpl implements PropertyService {
     private PropertyResponse convertToPropertyResponse(Property property) {
         return new PropertyResponse(property);
     }
+
+    @Override
+    public List<PropertyResponse> getUserId(long userId){
+        try {
+            List<Property> properties = propertyRepository.findByUserUserId(userId);
+            return properties.stream()
+                    .map(PropertyResponse::new)
+                    .collect(Collectors.toList());
+        } catch (IllegalArgumentException e) {
+            throw new InvalidInputException("Error fetching properties for userId: " + userId);
+        }
+    }
+
 
 }

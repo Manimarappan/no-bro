@@ -11,4 +11,7 @@ public interface LikedPropertyRepository extends JpaRepository<LikedProperty, Lo
     Optional<LikedProperty> findByUserUserIdAndPropertyPropertyId(Long userId, String propertyId);
     Page<LikedProperty> findByUserUserId(Long userId, Pageable pageable);
     void deleteByUserUserIdAndPropertyPropertyId(Long userId, String propertyId);
+
+    void deleteByProperty_PropertyId(String propertyId);
+
 }

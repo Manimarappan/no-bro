@@ -39,7 +39,7 @@ public class ImageController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ImageResponse> updateImage(@PathVariable Long id, @ModelAttribute ImageRequest request) {
+    public ResponseEntity<ImageResponse> updateImage(@PathVariable Long id, @RequestBody ImageRequest request) {
         ImageResponse response = imageService.updateImage(id, request);
         return ResponseEntity.ok(response);
     }
