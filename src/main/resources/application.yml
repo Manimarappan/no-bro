@@ -1,10 +1,10 @@
-logging:
-  level:
-    org:
-      springframework: DEBUG
-    com:
-      property:
-        no_bro: DEBUG
+#logging:
+#  level:
+#    org:
+#      springframework: DEBUG
+#    com:
+#      property:
+#        no_bro: DEBUG
 spring:
   application:
     name: no-bro
